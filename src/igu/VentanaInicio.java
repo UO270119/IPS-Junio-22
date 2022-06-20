@@ -28,6 +28,9 @@ public class VentanaInicio extends JFrame {
 	private JButton btnConsultarEnvio;
 	private JLabel lblSeleccione;
 
+	private VentanaRegistro ventanaRegistro;
+	private VentanaLogin ventanaLogin;
+	
 
 	/**
 	 * Create the frame.
@@ -129,11 +132,17 @@ public class VentanaInicio extends JFrame {
 	}
 	
 	private void showVentanaRegistro() {
-		// TODO		
+		ventanaRegistro = new VentanaRegistro();
+		ventanaRegistro.setLocationRelativeTo(this);
+		//ventanaRegistro.setModalityType(true);
+		ventanaRegistro.setVisible(true);	
 	}
 	
 	private void showVentanaLogin() {
-		// TODO			
+		ventanaLogin = new VentanaLogin();
+		ventanaLogin.setLocationRelativeTo(this);
+		//ventanaLogin.setModalityType(true);
+		ventanaLogin.setVisible(true);		
 	}
 	
 	private void showVentanaCodigoEnvio() {

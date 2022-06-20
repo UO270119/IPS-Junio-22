@@ -38,4 +38,30 @@ public class DtoFactory {
 		
 		return dto;
 	}
+	
+	
+	
+	
+	
+	
+	
+
+	public static UsuarioDto newUsuarioCliente() {
+		UsuarioDto usuario = new UsuarioDto();
+		usuario.id = PrimaryKeyGenerator.newUsuarioPK();
+		usuario.tipo = UsuarioDto.TIPO_CLIENTE;
+		return usuario;
+	}
+
+	public static UsuarioDto getUsuario(ResultSet rs) throws SQLException {
+		UsuarioDto dto = new UsuarioDto();
+		dto.id = rs.getLong("ID");
+		dto.nombre = rs.getString("NOMBRE");
+		dto.apellido = rs.getString("APELLIDO");
+		dto.email = rs.getString("EMAIL");
+		dto.dni = rs.getString("DNI");
+		dto.contrasena = rs.getString("CONTRASENA");
+		dto.tipo = rs.getString("TIPO");
+		return dto;
+	}
 }
