@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
-import business.BusinessFactory;
-import business.EnviosService;
 import business.exception.BusinessException;
 import dto.util.PrimaryKeyGenerator;
 
@@ -15,26 +15,29 @@ public class DtoFactory {
 	public static EnvioDto newEnvio(Long idEmisor) throws BusinessException {
 		EnvioDto envio = new EnvioDto();
 		envio.id = PrimaryKeyGenerator.newEnvioPK();
-		envio.fechaEmision = new Date(); // TODO this very might be wrong
-		envio.estado = "PROCESADO";
+		envio.fechaEmision = new Date();
+		envio.estado = EnvioDto.ESTADO_PREPARANDO;
 		envio.idEmisor = idEmisor;
+		UUID uuid = UUID.randomUUID();
+		envio.codigo = uuid.toString().split("-")[0];
 		return envio;
 	}
+	
 
-	public static EnvioDto getEnvio(Long id) throws BusinessException {
-		EnviosService ss = BusinessFactory.getEnviosService();
-		EnvioDto envio = ss.find(id);
-		return envio;
-	}
 
 	public static EnvioDto getEnvio(ResultSet rs) throws SQLException {
 		EnvioDto dto = new EnvioDto();
 		dto.id = rs.getLong("ID");
+		dto.codigo = rs.getString("CODIGO");
 		dto.idEmisor = rs.getLong("ID_EMISOR");
 		dto.estado = rs.getString("ESTADO");
 		
 		Timestamp ts = rs.getTimestamp("FECHA_EMISION");
-		dto.fechaEmision = Date.from(ts.toInstant());
+		if (ts == null) {
+			System.err.println("No se ha encontrado fecha para envío con id " + dto.id);
+			dto.fechaEmision = new Date();
+		}
+		else dto.fechaEmision = Date.from(ts.toInstant());
 		
 		return dto;
 	}

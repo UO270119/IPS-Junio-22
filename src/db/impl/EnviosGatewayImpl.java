@@ -20,8 +20,7 @@ public class EnviosGatewayImpl implements EnviosGateway {
 	private static String SQL_DELETE_ENVIO = Conf.getInstance().getProperty("SQL_DELETE_ENVIO");
 	private static String SQL_LIST_ENVIOS = Conf.getInstance().getProperty("SQL_LIST_ENVIOS");
 	private static String SQL_COUNT_ENVIOS = Conf.getInstance().getProperty("SQL_COUNT_ENVIOS");
-	private static String SQL_SELECT_ENVIO = Conf.getInstance().getProperty("SQL_SELECT_ENVIO");
-
+	private static String SQL_SELECT_ENVIO_CODIGO = Conf.getInstance().getProperty("SQL_SELECT_ENVIO_CODIGO");
 
 	private Connection con;
 	
@@ -32,14 +31,14 @@ public class EnviosGatewayImpl implements EnviosGateway {
 
 
 	@Override
-	public EnvioDto find(Long idEnvio) throws PersistenceException {
+	public EnvioDto findByCodigo(String codigoEnvio) throws PersistenceException {
 		ResultSet rs;
 		EnvioDto envio;
-		try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ENVIO)) {
-			ps.setLong(1, idEnvio);
+		try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ENVIO_CODIGO)) {
+			ps.setString(1, codigoEnvio);
 			rs = ps.executeQuery();
 			if (rs.next() == false) {
-				throw new PersistenceException("No existe envío con ID: " + idEnvio);
+				throw new PersistenceException("No existe envío con codigo: " + codigoEnvio);
 			}
 			envio = DtoFactory.getEnvio(rs);
 		} catch (SQLException e) {
@@ -50,16 +49,36 @@ public class EnviosGatewayImpl implements EnviosGateway {
 	}
 	
 	@Override
+	public List<EnvioDto> listAll() throws PersistenceException {
+		List<EnvioDto> all = new LinkedList<EnvioDto>();
+		try (PreparedStatement ps = con.prepareStatement(SQL_LIST_ENVIOS); ResultSet rs = ps.executeQuery()) {
+			while (rs.next()) {
+				all.add(DtoFactory.getEnvio(rs));
+			}
+		} catch (SQLException sqle) {
+			throw new PersistenceException(sqle);
+		}
+		return all;
+	}
+	
+	@Override
 	public void save(EnvioDto dto) throws PersistenceException {
 		try (PreparedStatement ps = con.prepareStatement(SQL_SAVE_ENVIO)) {
 			
+			//id, codigo, id_emisor, fecha_emision, estado, nombre_destinatario, apellidos_destinatario, direccion, peso, precio
 			ps.setLong(1, dto.id);
-			ps.setLong(2, dto.idEmisor);
-			ps.setTimestamp(3, Timestamp.from(dto.fechaEmision.toInstant()));
-			ps.setString(4, dto.estado);
-			
+			ps.setString(2, dto.codigo);
+			ps.setLong(3, dto.idEmisor);
+			ps.setTimestamp(4, Timestamp.from(dto.fechaEmision.toInstant()));
+			ps.setString(5, dto.estado);
+			ps.setString(6, dto.nombre_destinatario);
+			ps.setString(7, dto.apellido_destinatario);
+			ps.setString(8, dto.direccion);
+			ps.setDouble(9, dto.peso);
+			ps.setDouble(10, dto.precio);
 			ps.executeUpdate();
 		} catch (SQLException sqle) {
+			System.out.println(sqle);
 			throw new PersistenceException(sqle);
 		}
 	}
@@ -72,19 +91,6 @@ public class EnviosGatewayImpl implements EnviosGateway {
 		} catch (SQLException sqle) {
 			throw new PersistenceException(sqle);
 		}
-	}
-
-	@Override
-	public List<EnvioDto> listAll() throws PersistenceException {
-		List<EnvioDto> all = new LinkedList<EnvioDto>();
-		try (PreparedStatement ps = con.prepareStatement(SQL_LIST_ENVIOS); ResultSet rs = ps.executeQuery()) {
-			while (rs.next()) {
-				all.add(DtoFactory.getEnvio(rs));
-			}
-		} catch (SQLException sqle) {
-			throw new PersistenceException(sqle);
-		}
-		return all;
 	}
 
 	@Override

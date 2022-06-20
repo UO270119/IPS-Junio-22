@@ -7,8 +7,8 @@ import dto.EnvioDto;
 
 public interface EnviosService {
 
-	public EnvioDto find(Long idEnvio) throws BusinessException;
-
+	public EnvioDto findByCodigo(String codigoEnvio) throws BusinessException;
+	
 	public void update(EnvioDto envio);
 
 	public void add(EnvioDto envio) throws BusinessException;
@@ -18,4 +18,6 @@ public interface EnviosService {
 	public void delete(EnvioDto idEnvio);
 
 	public List<EnvioDto> getAll() throws BusinessException;
+
+	public double calculatePrice(String provinciaOrigen, String provinciaDestino, double peso, String recogida);
 }

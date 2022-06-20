@@ -21,6 +21,7 @@ public class VentanaZonaCliente extends JFrame {
 	private JLabel lblZonaCliente;
 	private JButton btnHacerEnvio;
 	private JButton btnSalir;
+	private VentanaDatosCrearEnvio crearEnvio;
 
 
 	/**
@@ -80,7 +81,11 @@ public class VentanaZonaCliente extends JFrame {
 	}
 	
 	private void showVentanaDatosCrearEnvio() {
-		// TODO
+		crearEnvio = new VentanaDatosCrearEnvio();
+		crearEnvio.setLocationRelativeTo(this);
+		//crearEnvio.setModalityType(true);
+		crearEnvio.setVisible(true);
+		crearEnvio.initialize(this.loggedUser);
 	}
 
 

@@ -5,6 +5,6 @@ import dto.EnvioDto;
 
 public interface EnviosGateway extends Gateway<EnvioDto> {
 
-	public EnvioDto find(Long idEnvio) throws PersistenceException;
+	public EnvioDto findByCodigo(String codigoEnvio) throws PersistenceException;
 	
 }
