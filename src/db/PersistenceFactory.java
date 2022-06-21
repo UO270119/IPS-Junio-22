@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import db.impl.EnviosGatewayImpl;
 import db.impl.EstadosEnvioGatewayImpl;
+import db.impl.RutasGatewayImpl;
 import db.impl.UsuariosGatewayImpl;
 
 public class PersistenceFactory {
@@ -24,6 +25,12 @@ public class PersistenceFactory {
 		UsuariosGateway eg = new UsuariosGatewayImpl();
 		eg.setConnection(con);
 		return eg;
+	}
+
+	public static RutasGateway getRutasGateway(Connection con) {
+		RutasGateway rg = new RutasGatewayImpl();
+		rg.setConnection(con);
+		return rg;
 	}
 
 }

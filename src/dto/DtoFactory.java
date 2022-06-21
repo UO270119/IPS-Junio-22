@@ -94,4 +94,23 @@ public class DtoFactory {
 		dto.tipo = rs.getString("TIPO");
 		return dto;
 	}
+	
+	
+	
+	
+	
+
+	public static RutaDto newRuta() {
+		RutaDto ruta = new RutaDto();
+		ruta.id = PrimaryKeyGenerator.newUsuarioPK();
+		return ruta;
+	}
+	
+	public static RutaDto getRuta(ResultSet rs) throws SQLException {
+		RutaDto dto = new RutaDto();
+		dto.id = rs.getLong("ID");
+		dto.idEnvio = rs.getLong("ID_ENVIO");
+		dto.idRepartidor = rs.getLong("ID_REPARTIDOR");
+		return dto;
+	}
 }

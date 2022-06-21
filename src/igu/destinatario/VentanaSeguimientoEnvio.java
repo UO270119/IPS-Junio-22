@@ -10,6 +10,7 @@ import business.EstadosEnvioService;
 import business.exception.BusinessException;
 import dto.EnvioDto;
 import dto.EstadoEnvioDto;
+import igu.util.ReadonlyTableModel;
 
 import java.awt.Toolkit;
 import javax.swing.JLabel;
@@ -264,14 +265,7 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		if (tableEstados == null) {
 			tableEstados = new JTable();
 			
-			dtm = new DefaultTableModel() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-			    public boolean isCellEditable(int row, int column) {
-			        return false;
-			    }
-			};
+			dtm = new ReadonlyTableModel();
 			
 			tableEstados.setModel(dtm);
 		}
@@ -302,8 +296,7 @@ public class VentanaSeguimientoEnvio extends JFrame {
 			EstadosEnvioService es = BusinessFactory.getEstadosEnvioService();
 			List<EstadoEnvioDto> estados = es.getForEnvio(envio.id);
 
-			dtm = (DefaultTableModel) getTableEstados().getModel();
-			tableEstados.setModel(dtm);
+			getTableEstados();
 			
 			String[] columnNames = new String[] { "Fecha", "Antiguo Estado", "Nuevo Estado"};
 			dtm.setColumnIdentifiers(columnNames);

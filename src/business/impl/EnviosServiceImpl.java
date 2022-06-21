@@ -11,6 +11,7 @@ import business.EstadosEnvioService;
 import business.exception.BusinessException;
 import db.EnviosGateway;
 import db.PersistenceFactory;
+import db.RutasGateway;
 import db.exception.PersistenceException;
 import db.util.Jdbc;
 import dto.DtoFactory;
@@ -51,6 +52,21 @@ public class EnviosServiceImpl implements EnviosService {
 		}
 		return envio;
 	}
+	
+	@Override
+	public List<EnvioDto> findForRepartidor(Long idRepartidor) throws BusinessException {
+		List<EnvioDto> result = new LinkedList<EnvioDto>();
+		try (Connection con = Jdbc.getConnection()) {
+			RutasGateway eg = PersistenceFactory.getRutasGateway(con);
+			List<EnvioDto> envios = eg.findEnviosForRepartidor(idRepartidor);
+			for (EnvioDto dto : envios)
+				result.add(dto);
+		} catch (SQLException | PersistenceException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 
 	@Override
 	public void updateEstado(EnvioDto envio, String newEstado) {
@@ -109,6 +125,7 @@ public class EnviosServiceImpl implements EnviosService {
 		return count;
 	}
 
+	
 	/**
 	 *  -	Según destino:
 			- Misma provincia: tarifa fija de 4 euros.
@@ -120,7 +137,6 @@ public class EnviosServiceImpl implements EnviosService {
 			- Paquete grande (> 5kg): tarifa variable, tendrá un incremento de 1 euro por cada kilo (5kg = +1 euro, 6kg = +2 euros...)
 			
 		-	Según tipo de recogida:
-			
 			-	Recogida en oficina o almacén: +1 euro
 			-	Recogida en domicilio: +2,50
 			

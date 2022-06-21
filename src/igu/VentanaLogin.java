@@ -10,6 +10,7 @@ import business.exception.BusinessException;
 import dto.UsuarioDto;
 import igu.admin.VentanaZonaAdministrador;
 import igu.cliente.VentanaZonaCliente;
+import igu.repartidor.VentanaZonaRepartidor;
 
 import java.awt.Toolkit;
 import javax.swing.JLabel;
@@ -35,6 +36,7 @@ public class VentanaLogin extends JFrame {
 	private JPasswordField passwordField;
 	
 	private VentanaZonaCliente zonaCliente;
+	private VentanaZonaRepartidor zonaRepartidor;
 	private VentanaZonaAdministrador zonaAdministrador;
 
 
@@ -159,7 +161,12 @@ public class VentanaLogin extends JFrame {
 	}
 	
 	private void showVentanaZonaRepartidor(UsuarioDto dto) {
-		// TODO
+		zonaRepartidor = new VentanaZonaRepartidor();
+		zonaRepartidor.setLocationRelativeTo(this);
+		//zonaRepartidor.setModalityType(true);
+		zonaRepartidor.setVisible(true);
+		
+		zonaRepartidor.initialize(dto);
 	}
 	
 	private void showVentanaZonaAdministrador(UsuarioDto dto) {

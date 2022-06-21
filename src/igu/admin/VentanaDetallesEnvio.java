@@ -11,6 +11,7 @@ import business.EstadosEnvioService;
 import business.exception.BusinessException;
 import dto.EnvioDto;
 import dto.EstadoEnvioDto;
+import igu.util.ReadonlyTableModel;
 
 import java.awt.Toolkit;
 import javax.swing.JLabel;
@@ -212,14 +213,7 @@ public class VentanaDetallesEnvio extends JFrame {
 		if (tableEstados == null) {
 			tableEstados = new JTable();
 			
-			dtm = new DefaultTableModel() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-			    public boolean isCellEditable(int row, int column) {
-			        return false;
-			    }
-			};
+			dtm = new ReadonlyTableModel();
 			
 			tableEstados.setModel(dtm);
 		}
