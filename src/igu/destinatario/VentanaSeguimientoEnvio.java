@@ -37,11 +37,9 @@ public class VentanaSeguimientoEnvio extends JFrame {
 	private JPanel contentPane;
 	private JButton btnSalir;
 	private JLabel lblEnvio;
-	private JLabel lblOrigen;
 	private JLabel lblDestino;
 	private JLabel lblFecha;
 	private JLabel lblHora;
-	private JLabel lblPrecio_1;
 	private JScrollPane scrollPane;
 	private JPanel pnEstado;
 	private JLabel lblEstados;
@@ -50,10 +48,7 @@ public class VentanaSeguimientoEnvio extends JFrame {
 	private JLabel lblFechaInput;
 	private JLabel lblHoraInput;
 	private JLabel lblPesoInput;
-	private JLabel lblOrigenInput;
 	private JLabel lblDestinoInput;
-	private JLabel lblPrecioInput;
-	private JLabel lblEstado;
 
 	private JTable tableEstados;
 
@@ -74,11 +69,9 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getBtnSalir());
 		contentPane.add(getLblEnvio());
-		contentPane.add(getLblOrigen());
 		contentPane.add(getLblDestino());
 		contentPane.add(getLblFecha());
 		contentPane.add(getLblHora());
-		contentPane.add(getLblPrecio_1());
 		contentPane.add(getScrollPane());
 		contentPane.add(getLblEstados());
 		contentPane.add(getLblPeso());
@@ -86,10 +79,7 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		contentPane.add(getLblFechaInput());
 		contentPane.add(getLblHoraInput());
 		contentPane.add(getLblPesoInput());
-		contentPane.add(getLblOrigenInput());
 		contentPane.add(getLblDestinoInput());
-		contentPane.add(getLblPrecioInput());
-		contentPane.add(getLblEstado());
 	}
 	private JButton getBtnSalir() {
 		if (btnSalir == null) {
@@ -113,21 +103,12 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		}
 		return lblEnvio;
 	}
-	private JLabel getLblOrigen() {
-		if (lblOrigen == null) {
-			lblOrigen = new JLabel("Origen:");
-			lblOrigen.setHorizontalAlignment(SwingConstants.CENTER);
-			lblOrigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblOrigen.setBounds(80, 220, 168, 33);
-		}
-		return lblOrigen;
-	}
 	private JLabel getLblDestino() {
 		if (lblDestino == null) {
 			lblDestino = new JLabel("Destino:");
 			lblDestino.setHorizontalAlignment(SwingConstants.CENTER);
 			lblDestino.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblDestino.setBounds(325, 220, 168, 33);
+			lblDestino.setBounds(90, 213, 168, 33);
 		}
 		return lblDestino;
 	}
@@ -148,15 +129,6 @@ public class VentanaSeguimientoEnvio extends JFrame {
 			lblHora.setBounds(80, 127, 168, 33);
 		}
 		return lblHora;
-	}
-	private JLabel getLblPrecio_1() {
-		if (lblPrecio_1 == null) {
-			lblPrecio_1 = new JLabel("Precio:");
-			lblPrecio_1.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPrecio_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblPrecio_1.setBounds(80, 263, 168, 33);
-		}
-		return lblPrecio_1;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -232,32 +204,14 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		}
 		return lblPesoInput;
 	}
-	private JLabel getLblOrigenInput() {
-		if (lblOrigenInput == null) {
-			lblOrigenInput = new JLabel("");
-			lblOrigenInput.setHorizontalAlignment(SwingConstants.CENTER);
-			lblOrigenInput.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblOrigenInput.setBounds(203, 220, 152, 33);
-		}
-		return lblOrigenInput;
-	}
 	private JLabel getLblDestinoInput() {
 		if (lblDestinoInput == null) {
 			lblDestinoInput = new JLabel("");
 			lblDestinoInput.setHorizontalAlignment(SwingConstants.CENTER);
 			lblDestinoInput.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblDestinoInput.setBounds(444, 220, 152, 33);
+			lblDestinoInput.setBounds(320, 213, 152, 33);
 		}
 		return lblDestinoInput;
-	}
-	private JLabel getLblPrecioInput() {
-		if (lblPrecioInput == null) {
-			lblPrecioInput = new JLabel("");
-			lblPrecioInput.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPrecioInput.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblPrecioInput.setBounds(203, 263, 152, 33);
-		}
-		return lblPrecioInput;
 	}
 
 	
@@ -272,14 +226,6 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		return tableEstados;
 	}
 	
-	private JLabel getLblEstado() {
-		if (lblEstado == null) {
-			lblEstado = new JLabel("");
-			lblEstado.setBounds(394, 291, 123, 53);
-		}
-		return lblEstado;
-	}
-	
 	
 	public void initialize(EnvioDto envio) {
 		
@@ -287,10 +233,10 @@ public class VentanaSeguimientoEnvio extends JFrame {
 		this.getLblFechaInput().setText(envio.fechaEmision.getDate() + "/" + envio.fechaEmision.getMonth() + "/" + envio.fechaEmision.getYear()); //asignar una nueva date a dos días después, luego veremos si domingo
 		this.getLblHoraInput().setText(envio.fechaEmision.getHours() + ":" + envio.fechaEmision.getMinutes());
 		this.getLblPesoInput().setText(String.valueOf(envio.peso));
-		this.getLblOrigenInput().setText(envio.direccion);
+		//this.getLblOrigenInput().setText(envio.direccion);
 		this.getLblDestinoInput().setText(envio.direccion);
-		this.getLblPrecioInput().setText(String.valueOf(envio.precio));
-		this.getLblEstado().setText("Estado: " + envio.estado);
+		//this.getLblPrecioInput().setText(String.valueOf(envio.precio));
+		//this.getLblEstado().setText("Estado: " + envio.estado);
 		
 		try {
 			EstadosEnvioService es = BusinessFactory.getEstadosEnvioService();

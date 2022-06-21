@@ -84,6 +84,7 @@ public class UsuariosGatewayImpl implements UsuariosGateway {
 			
 			ps.executeUpdate();
 		} catch (SQLException sqle) {
+			System.err.println(sqle);
 			throw new PersistenceException(sqle);
 		}
 	}

@@ -33,6 +33,7 @@ public class DtoFactory {
 		dto.apellidoDestinatario = rs.getString("APELLIDOS_DESTINATARIO");
 		dto.peso = rs.getDouble("PESO");
 		dto.precio = rs.getDouble("PRECIO");
+		dto.direccion = rs.getString("DIRECCION");
 		
 		Timestamp ts = rs.getTimestamp("FECHA_EMISION");
 		if (ts == null) {

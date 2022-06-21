@@ -40,18 +40,13 @@ public class VentanaDetallesEnvio extends JFrame {
 	private JLabel lblDetalles;
 	private JLabel lblNombre;
 	private JLabel lblApellido;
-	private JLabel lblTelefono;
 	private JLabel lblDireccion;
-	private JLabel lblOrigen;
-	private JLabel lblDestino;
 	private JLabel lblFecha;
 	private JLabel lblHora;
-	private JLabel lblPrecio_1;
 	private JScrollPane scrollPane;
 	private JPanel pnEstado;
 	private JLabel lblEstados;
 	private JCheckBox chckbxCentroDist;
-	private JLabel lblTipo;
 	private JLabel lblPeso;
 	private JTable tableEstados;
 
@@ -75,17 +70,12 @@ public class VentanaDetallesEnvio extends JFrame {
 		contentPane.add(getLblDetalles());
 		contentPane.add(getLblNombre());
 		contentPane.add(getLblApellido());
-		contentPane.add(getLblTelefono());
 		contentPane.add(getLblDireccion());
-		contentPane.add(getLblOrigen());
-		contentPane.add(getLblDestino());
 		contentPane.add(getLblFecha());
 		contentPane.add(getLblHora());
-		contentPane.add(getLblPrecio_1());
 		contentPane.add(getScrollPane());
 		contentPane.add(getLblEstados());
 		contentPane.add(getChckbxCentroDist());
-		contentPane.add(getLblTipo());
 		contentPane.add(getLblPeso());
 	}
 	private JButton getBtnSalir() {
@@ -128,48 +118,21 @@ public class VentanaDetallesEnvio extends JFrame {
 		}
 		return lblApellido;
 	}
-	private JLabel getLblTelefono() {
-		if (lblTelefono == null) {
-			lblTelefono = new JLabel("Tel\u00E9fono:");
-			lblTelefono.setHorizontalAlignment(SwingConstants.CENTER);
-			lblTelefono.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblTelefono.setBounds(38, 194, 168, 33);
-		}
-		return lblTelefono;
-	}
 	private JLabel getLblDireccion() {
 		if (lblDireccion == null) {
 			lblDireccion = new JLabel("Direcci\u00F3n:");
 			lblDireccion.setHorizontalAlignment(SwingConstants.CENTER);
 			lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblDireccion.setBounds(38, 237, 168, 33);
+			lblDireccion.setBounds(38, 194, 168, 33);
 		}
 		return lblDireccion;
-	}
-	private JLabel getLblOrigen() {
-		if (lblOrigen == null) {
-			lblOrigen = new JLabel("Origen:");
-			lblOrigen.setHorizontalAlignment(SwingConstants.CENTER);
-			lblOrigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblOrigen.setBounds(320, 80, 168, 33);
-		}
-		return lblOrigen;
-	}
-	private JLabel getLblDestino() {
-		if (lblDestino == null) {
-			lblDestino = new JLabel("Destino:");
-			lblDestino.setHorizontalAlignment(SwingConstants.CENTER);
-			lblDestino.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblDestino.setBounds(320, 115, 168, 33);
-		}
-		return lblDestino;
 	}
 	private JLabel getLblFecha() {
 		if (lblFecha == null) {
 			lblFecha = new JLabel("Fecha:");
 			lblFecha.setHorizontalAlignment(SwingConstants.CENTER);
 			lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblFecha.setBounds(320, 150, 168, 33);
+			lblFecha.setBounds(320, 108, 168, 33);
 		}
 		return lblFecha;
 	}
@@ -178,18 +141,9 @@ public class VentanaDetallesEnvio extends JFrame {
 			lblHora = new JLabel("Hora:");
 			lblHora.setHorizontalAlignment(SwingConstants.CENTER);
 			lblHora.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblHora.setBounds(320, 185, 168, 33);
+			lblHora.setBounds(320, 151, 168, 33);
 		}
 		return lblHora;
-	}
-	private JLabel getLblPrecio_1() {
-		if (lblPrecio_1 == null) {
-			lblPrecio_1 = new JLabel("Precio:");
-			lblPrecio_1.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPrecio_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblPrecio_1.setBounds(320, 290, 168, 33);
-		}
-		return lblPrecio_1;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -253,21 +207,12 @@ public class VentanaDetallesEnvio extends JFrame {
 		}
 		return chckbxCentroDist;
 	}
-	private JLabel getLblTipo() {
-		if (lblTipo == null) {
-			lblTipo = new JLabel("Tipo:");
-			lblTipo.setHorizontalAlignment(SwingConstants.CENTER);
-			lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblTipo.setBounds(320, 220, 168, 33);
-		}
-		return lblTipo;
-	}
 	private JLabel getLblPeso() {
 		if (lblPeso == null) {
 			lblPeso = new JLabel("Peso:");
 			lblPeso.setHorizontalAlignment(SwingConstants.CENTER);
 			lblPeso.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblPeso.setBounds(320, 255, 168, 33);
+			lblPeso.setBounds(320, 194, 168, 33);
 		}
 		return lblPeso;
 	}
@@ -286,7 +231,7 @@ public class VentanaDetallesEnvio extends JFrame {
 		this.getLblHora().setText("Hora: " + envio.fechaEmision.getHours() + ":" + envio.fechaEmision.getMinutes());
 		this.getLblPeso().setText("Peso: " + String.valueOf(envio.peso));
 		this.getLblDireccion().setText("Dirección: " + envio.direccion);
-		this.getLblPrecio_1().setText("Previo: " + String.valueOf(envio.precio));
+		//this.getLblPrecio_1().setText("Previo: " + String.valueOf(envio.precio));
 
 		// Sólo se pueden marcar envíos recién recibidos
 		this.getChckbxCentroDist().setEnabled(EnvioDto.ESTADO_PREPARANDO.equals(envio.estado));

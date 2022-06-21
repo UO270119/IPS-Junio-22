@@ -24,12 +24,10 @@ public class VentanaConfirmacionEnvio extends JFrame {
 	private JLabel lblApellido;
 	private JLabel lblDireccion;
 	private JLabel lblPeso;
-	private JLabel lblPrecio;
 	private JLabel lblNombreInput;
 	private JLabel lblApellidoInput;
 	private JLabel lblDireccionInput;
 	private JLabel lblPesoInput;
-	private JLabel lblPrecioInput;
 
 	/**
 	 * Create the frame.
@@ -49,12 +47,10 @@ public class VentanaConfirmacionEnvio extends JFrame {
 		contentPane.add(getLblApellido());
 		contentPane.add(getLblDireccion());
 		contentPane.add(getLblPeso());
-		contentPane.add(getLblPrecio());
 		contentPane.add(getLblNombreInput());
 		contentPane.add(getLblApellidoInput());
 		contentPane.add(getLblDireccionInput());
 		contentPane.add(getLblPesoInput());
-		contentPane.add(getLblPrecioInput());
 	}
 	private JButton getBtnSalir() {
 		if (btnSalir == null) {
@@ -114,15 +110,6 @@ public class VentanaConfirmacionEnvio extends JFrame {
 		}
 		return lblPeso;
 	}
-	private JLabel getLblPrecio() {
-		if (lblPrecio == null) {
-			lblPrecio = new JLabel("Precio:");
-			lblPrecio.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblPrecio.setBounds(35, 261, 168, 33);
-		}
-		return lblPrecio;
-	}
 	
 	private JLabel getLblNombreInput() {
 		if (lblNombreInput == null) {
@@ -160,22 +147,13 @@ public class VentanaConfirmacionEnvio extends JFrame {
 		}
 		return lblPesoInput;
 	}
-	private JLabel getLblPrecioInput() {
-		if (lblPrecioInput == null) {
-			lblPrecioInput = new JLabel("");
-			lblPrecioInput.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPrecioInput.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblPrecioInput.setBounds(213, 261, 267, 33);
-		}
-		return lblPrecioInput;
-	}
 	
 	public void initialize(EnvioDto dto) {
 		this.getLblNombreInput().setText(dto.nombreDestinatario);
 		this.getLblApellidoInput().setText(dto.apellidoDestinatario);
 		this.getLblDireccionInput().setText(dto.direccion);
 		this.getLblPesoInput().setText(String.valueOf(dto.peso));
-		this.getLblPrecioInput().setText(String.valueOf(dto.precio));
+		//this.getLblPrecioInput().setText(String.valueOf(dto.precio));
 		
 	}
 }
