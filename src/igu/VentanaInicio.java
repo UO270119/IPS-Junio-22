@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.BusinessFactory;
 import business.EnviosService;
+import igu.destinatario.VentanaCodigoEnvio;
 
 import java.awt.Toolkit;
 import javax.swing.JLabel;
@@ -30,6 +31,7 @@ public class VentanaInicio extends JFrame {
 
 	private VentanaRegistro ventanaRegistro;
 	private VentanaLogin ventanaLogin;
+	private VentanaCodigoEnvio codigoEnvio;
 	
 
 	/**
@@ -102,11 +104,7 @@ public class VentanaInicio extends JFrame {
 			btnConsultarEnvio = new JButton("Seguimiento env\u00EDo");
 			btnConsultarEnvio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					EnviosService es = BusinessFactory.getEnviosService();
-					System.out.println( "NUMERO ENVIOS: " + es.count());
-					
-					//showVentanaCodigoEnvio();
+					showVentanaCodigoEnvio();
 				}
 			});
 			btnConsultarEnvio.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -146,6 +144,9 @@ public class VentanaInicio extends JFrame {
 	}
 	
 	private void showVentanaCodigoEnvio() {
-		// TODO
+		codigoEnvio = new VentanaCodigoEnvio();
+		codigoEnvio.setLocationRelativeTo(this);
+		//codigoEnvio.setModalityType(true);
+		codigoEnvio.setVisible(true);
 	}
 }

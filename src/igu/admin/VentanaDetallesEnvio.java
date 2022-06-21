@@ -29,6 +29,7 @@ import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
+import java.awt.BorderLayout;
 
 public class VentanaDetallesEnvio extends JFrame {
 
@@ -201,6 +202,7 @@ public class VentanaDetallesEnvio extends JFrame {
 		if (pnEstado == null) {
 			pnEstado = new JPanel();
 			pnEstado.setBackground(Color.WHITE);
+			pnEstado.setLayout(new BorderLayout(0, 0));
 			pnEstado.add(getTableEstados());
 		}
 		return pnEstado;
@@ -302,6 +304,9 @@ public class VentanaDetallesEnvio extends JFrame {
 
 			dtm = (DefaultTableModel) getTableEstados().getModel();
 			tableEstados.setModel(dtm);
+			
+			for (int i = dtm.getRowCount()-1; i >= 0; i--)
+				dtm.removeRow(i);
 			
 			String[] columnNames = new String[] { "Fecha", "Antiguo Estado", "Nuevo Estado"};
 			dtm.setColumnIdentifiers(columnNames);
