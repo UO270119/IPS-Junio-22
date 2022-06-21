@@ -9,4 +9,6 @@ public interface RutasService {
 	
 	public int count();
 
+	public void deleteForEnvio(Long idEnvio) throws BusinessException;
+
 }

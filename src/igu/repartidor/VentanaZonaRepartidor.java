@@ -87,20 +87,11 @@ public class VentanaZonaRepartidor extends JFrame {
 	}
 	
 	private void showVentanaListaEnviosRepartidor() {
-		try {
-			EnviosService es = BusinessFactory.getEnviosService();
-			List<EnvioDto> envios = es.findForRepartidor(this.usuarioDto.id);
-
 			listaEnviosRepartidor = new VentanaListaEnviosRepartidor();
 			listaEnviosRepartidor.setLocationRelativeTo(this);
 			//listaEnviosRepartidor.setModalityType(true);
 			listaEnviosRepartidor.setVisible(true);
-			listaEnviosRepartidor.initialize(envios);
-			
-		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			listaEnviosRepartidor.initialize(this.usuarioDto);
 	}
 
 

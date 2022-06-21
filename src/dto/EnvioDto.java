@@ -6,6 +6,9 @@ public class EnvioDto {
 
 	public final static String ESTADO_PREPARANDO = "PREPARANDO";
 	public final static String ESTADO_DISTRIBUCION = "CENTRO_DISTRIBUCION";
+	public final static String ESTADO_REPARTO = "REPARTO";
+	public final static String ESTADO_ENTREGADO = "ENTREGADO";
+	public final static String ESTADO_FALLIDO = "FALLIDO";
 	
 	/*package*/ EnvioDto() {
 		

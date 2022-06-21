@@ -36,4 +36,14 @@ public class RutasServiceImpl implements RutasService {
 		return count;
 	}
 
+	@Override
+	public void deleteForEnvio(Long idEnvio) throws BusinessException {
+		try (Connection con = Jdbc.getConnection()) {
+			RutasGateway rg = PersistenceFactory.getRutasGateway(con);
+			rg.deleteForEnvio(idEnvio);
+		} catch (SQLException | PersistenceException e) {
+			throw new BusinessException(e);
+		}
+	}
+
 }

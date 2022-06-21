@@ -290,6 +290,7 @@ public class VentanaDetallesEnvio extends JFrame {
 
 		// Sólo se pueden marcar envíos recién recibidos
 		this.getChckbxCentroDist().setEnabled(EnvioDto.ESTADO_PREPARANDO.equals(envio.estado));
+		this.getChckbxCentroDist().setSelected(EnvioDto.ESTADO_DISTRIBUCION.equals(envio.estado));
 		
 		refreshEstados();
 	}

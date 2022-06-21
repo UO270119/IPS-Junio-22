@@ -20,6 +20,7 @@ public class RutasGatewayImpl implements RutasGateway {
 	private static String SQL_LIST_RUTAS = Conf.getInstance().getProperty("SQL_LIST_RUTAS");
 	private static String SQL_COUNT_RUTAS = Conf.getInstance().getProperty("SQL_COUNT_RUTAS");
 	private static String SQL_SELECT_ENVIOS_FOR_REPARTIDOR = Conf.getInstance().getProperty("SQL_SELECT_ENVIOS_FOR_REPARTIDOR");
+	private static String SQL_DELETE_RUTA_ENVIO = Conf.getInstance().getProperty("SQL_DELETE_RUTA_ENVIO");
 	
 	private Connection con;
 	
@@ -76,6 +77,17 @@ public class RutasGatewayImpl implements RutasGateway {
 	@Override
 	public void delete(RutaDto dto) throws PersistenceException {
 		// TODO?
+	}
+
+	@Override
+	public void deleteForEnvio(Long idEnvio) throws PersistenceException {
+		try (PreparedStatement ps = con.prepareStatement(SQL_DELETE_RUTA_ENVIO)) {
+			ps.setLong(1, idEnvio);
+			ps.executeUpdate();
+		} catch (SQLException sqle) {
+			System.out.println(sqle);
+			throw new PersistenceException(sqle);
+		}
 	}
 
 	@Override

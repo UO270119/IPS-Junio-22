@@ -97,6 +97,10 @@ public class VentanaFormularioRutas extends JFrame {
 
 						RutasService rs = BusinessFactory.getRutasService();
 						rs.add(dto);
+
+						EnviosService es = BusinessFactory.getEnviosService();
+						es.updateEstado(envio, EnvioDto.ESTADO_REPARTO);
+						
 						showVentanaConfirmacionRuta();					
 					} catch (BusinessException ex) {
 						ex.printStackTrace();

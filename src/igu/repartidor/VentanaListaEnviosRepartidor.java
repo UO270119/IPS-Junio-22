@@ -5,8 +5,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import business.BusinessFactory;
+import business.EnviosService;
+import business.RutasService;
+import business.exception.BusinessException;
+import dto.DtoFactory;
 import dto.EnvioDto;
 import dto.EstadoEnvioDto;
+import dto.RutaDto;
+import dto.UsuarioDto;
 import igu.util.JTableButtonRenderer;
 import igu.util.ReadonlyTableModel;
 
@@ -17,6 +24,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -30,7 +38,7 @@ public class VentanaListaEnviosRepartidor extends JFrame {
 	private JLabel lblListaEnvios;
 	private JButton btnSalir;
 	private JScrollPane scrollPane;
-	private JButton btnNewButton;
+	private JButton btnMArcarEnvio;
 	
 	private DefaultTableModel dtm;
 	private JTable tableEnviosReparto;
@@ -51,7 +59,7 @@ public class VentanaListaEnviosRepartidor extends JFrame {
 		contentPane.add(getLblListaEnvios());
 		contentPane.add(getBtnSalir());
 		contentPane.add(getScrollPane());
-		contentPane.add(getBtnNewButton());
+		contentPane.add(getBtnMArcarEnvio());
 	}
 	
 	
@@ -87,12 +95,46 @@ public class VentanaListaEnviosRepartidor extends JFrame {
 		}
 		return scrollPane;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("OK");
-			btnNewButton.setBounds(479, 54, 57, 21);
+	private JButton getBtnMArcarEnvio() {
+		if (btnMArcarEnvio == null) {
+			btnMArcarEnvio = new JButton("Marcar Env\u00EDo");
+			btnMArcarEnvio.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int selectedRow = getTableEnviosReparto().getSelectedRow();
+					if (selectedRow < 0)
+					{
+						JOptionPane.showMessageDialog(rootPane, "Seleccione un envío para marcar.");
+						return;
+					}
+					try {
+						EnvioDto envio = envios.get(selectedRow);
+						int opt = JOptionPane.showConfirmDialog(rootPane, "Envío entregado con éxito?");
+						
+						if (opt == JOptionPane.OK_OPTION) {
+							EnviosService es = BusinessFactory.getEnviosService();
+							es.updateEstado(envio, EnvioDto.ESTADO_ENTREGADO);
+							
+							RutasService rs = BusinessFactory.getRutasService();
+							rs.deleteForEnvio(envio.id);
+						}
+						else if (opt == JOptionPane.NO_OPTION) {
+							EnviosService es = BusinessFactory.getEnviosService();
+							es.updateEstado(envio, EnvioDto.ESTADO_FALLIDO);
+							
+							RutasService rs = BusinessFactory.getRutasService();
+							rs.deleteForEnvio(envio.id);
+						}
+						refreshEnvios();	
+						
+					} catch (BusinessException ex) {
+						ex.printStackTrace();
+						JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error al asignar la ruta");
+					}
+				}
+			});
+			btnMArcarEnvio.setBounds(445, 54, 91, 21);
 		}
-		return btnNewButton;
+		return btnMArcarEnvio;
 	}
 	
 	
@@ -100,12 +142,7 @@ public class VentanaListaEnviosRepartidor extends JFrame {
 		if (tableEnviosReparto == null) {
 			tableEnviosReparto = new JTable();
 			
-			dtm = new ReadonlyTableModel(
-				new Object[][] {},
-				new String[] {
-					"Destinatario", "Fecha y hora", "Marcar Reparto"
-				}
-			) {
+			dtm = new ReadonlyTableModel(new Object[][] {}, new String[] {"Destinatario", "Fecha y hora"}) {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public Class getColumnClass(int column) {
@@ -120,22 +157,33 @@ public class VentanaListaEnviosRepartidor extends JFrame {
 	}
 
 	
+	private UsuarioDto repartidor;
+	private List<EnvioDto> envios;
 	
-	public void initialize(List<EnvioDto> envios) {
+	public void initialize(UsuarioDto repartidor) {
+		this.repartidor = repartidor;
+		refreshEnvios();
+	}
+	
+	private void refreshEnvios() {
+		this.envios = new LinkedList<EnvioDto>();
+		
+		try {
+			EnviosService es = BusinessFactory.getEnviosService();
+			this.envios = es.findForRepartidor(this.repartidor.id);
+			
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = dtm.getRowCount()-1; i >= 0; i--)
+			dtm.removeRow(i);
 		
 		for (EnvioDto envio : envios) {
-			
 			String destinatario = "" + envio.apellidoDestinatario + ", " + envio.nombreDestinatario;
 			String fecha = envio.fechaEmision.getDate() + "/" + envio.fechaEmision.getMonth() + "/" + envio.fechaEmision.getYear();
-			
-			JButton btn = new JButton("Marcar");
-			btn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(rootPane, envio.codigo);
-				}
-			});
-			
-			dtm.addRow(new Object[] {destinatario, fecha, btn});
+			dtm.addRow(new Object[] {destinatario, fecha });
 		}
 	}
 	
