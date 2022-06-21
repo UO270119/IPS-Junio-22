@@ -64,7 +64,8 @@ public class EnviosServiceImpl implements EnviosService {
 	public List<EnvioDto> getAll() throws BusinessException {
 		List<EnvioDto> result = new LinkedList<EnvioDto>();
 		try (Connection con = Jdbc.getConnection()) {
-			for (EnvioDto dto : PersistenceFactory.getEnviosGateway(con).listAll())
+			List<EnvioDto> envios = PersistenceFactory.getEnviosGateway(con).listAll();
+			for (EnvioDto dto : envios)
 				result.add(dto);
 		} catch (SQLException | PersistenceException e) {
 			e.printStackTrace();

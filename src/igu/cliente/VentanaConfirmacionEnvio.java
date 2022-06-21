@@ -171,8 +171,8 @@ public class VentanaConfirmacionEnvio extends JFrame {
 	}
 	
 	public void initialize(EnvioDto dto) {
-		this.getLblNombreInput().setText(dto.nombre_destinatario);
-		this.getLblApellidoInput().setText(dto.apellido_destinatario);
+		this.getLblNombreInput().setText(dto.nombreDestinatario);
+		this.getLblApellidoInput().setText(dto.apellidoDestinatario);
 		this.getLblDireccionInput().setText(dto.direccion);
 		this.getLblPesoInput().setText(String.valueOf(dto.peso));
 		this.getLblPrecioInput().setText(String.valueOf(dto.precio));

@@ -21,6 +21,8 @@ public class EnviosGatewayImpl implements EnviosGateway {
 	private static String SQL_LIST_ENVIOS = Conf.getInstance().getProperty("SQL_LIST_ENVIOS");
 	private static String SQL_COUNT_ENVIOS = Conf.getInstance().getProperty("SQL_COUNT_ENVIOS");
 	private static String SQL_SELECT_ENVIO_CODIGO = Conf.getInstance().getProperty("SQL_SELECT_ENVIO_CODIGO");
+	private static String SQL_SELECT_ENVIO_ESTADO = Conf.getInstance().getProperty("SQL_SELECT_ENVIO_ESTADO");
+
 
 	private Connection con;
 	
@@ -38,7 +40,7 @@ public class EnviosGatewayImpl implements EnviosGateway {
 			ps.setString(1, codigoEnvio);
 			rs = ps.executeQuery();
 			if (rs.next() == false) {
-				throw new PersistenceException("No existe envío con codigo: " + codigoEnvio);
+				throw new PersistenceException("No existe envío con código: " + codigoEnvio);
 			}
 			envio = DtoFactory.getEnvio(rs);
 		} catch (SQLException e) {
@@ -48,6 +50,7 @@ public class EnviosGatewayImpl implements EnviosGateway {
 		return envio;
 	}
 	
+	
 	@Override
 	public List<EnvioDto> listAll() throws PersistenceException {
 		List<EnvioDto> all = new LinkedList<EnvioDto>();
@@ -56,6 +59,7 @@ public class EnviosGatewayImpl implements EnviosGateway {
 				all.add(DtoFactory.getEnvio(rs));
 			}
 		} catch (SQLException sqle) {
+			System.err.println(sqle);
 			throw new PersistenceException(sqle);
 		}
 		return all;
@@ -71,8 +75,8 @@ public class EnviosGatewayImpl implements EnviosGateway {
 			ps.setLong(3, dto.idEmisor);
 			ps.setTimestamp(4, Timestamp.from(dto.fechaEmision.toInstant()));
 			ps.setString(5, dto.estado);
-			ps.setString(6, dto.nombre_destinatario);
-			ps.setString(7, dto.apellido_destinatario);
+			ps.setString(6, dto.nombreDestinatario);
+			ps.setString(7, dto.apellidoDestinatario);
 			ps.setString(8, dto.direccion);
 			ps.setDouble(9, dto.peso);
 			ps.setDouble(10, dto.precio);

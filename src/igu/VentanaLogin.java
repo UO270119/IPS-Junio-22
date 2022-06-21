@@ -8,6 +8,7 @@ import business.BusinessFactory;
 import business.UsuariosService;
 import business.exception.BusinessException;
 import dto.UsuarioDto;
+import igu.admin.VentanaZonaAdministrador;
 import igu.cliente.VentanaZonaCliente;
 
 import java.awt.Toolkit;
@@ -34,7 +35,8 @@ public class VentanaLogin extends JFrame {
 	private JPasswordField passwordField;
 	
 	private VentanaZonaCliente zonaCliente;
-	
+	private VentanaZonaAdministrador zonaAdministrador;
+
 
 	/**
 	 * Create the frame.
@@ -161,6 +163,11 @@ public class VentanaLogin extends JFrame {
 	}
 	
 	private void showVentanaZonaAdministrador(UsuarioDto dto) {
-		// TODO
+		zonaAdministrador = new VentanaZonaAdministrador();
+		zonaAdministrador.setLocationRelativeTo(this);
+		//zonaAdministrador.setModalityType(true);
+		zonaAdministrador.setVisible(true);
+		
+		zonaAdministrador.initialize(dto);
 	}
 }

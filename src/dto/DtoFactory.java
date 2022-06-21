@@ -31,6 +31,10 @@ public class DtoFactory {
 		dto.codigo = rs.getString("CODIGO");
 		dto.idEmisor = rs.getLong("ID_EMISOR");
 		dto.estado = rs.getString("ESTADO");
+		dto.nombreDestinatario = rs.getString("NOMBRE_DESTINATARIO");
+		dto.apellidoDestinatario = rs.getString("APELLIDOS_DESTINATARIO");
+		dto.peso = rs.getDouble("PESO");
+		dto.precio = rs.getDouble("PRECIO");
 		
 		Timestamp ts = rs.getTimestamp("FECHA_EMISION");
 		if (ts == null) {

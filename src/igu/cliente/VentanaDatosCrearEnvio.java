@@ -90,8 +90,8 @@ public class VentanaDatosCrearEnvio extends JFrame {
 						try {
 							
 							EnvioDto dto = DtoFactory.newEnvio(loggedUser.id);
-							dto.nombre_destinatario = getTxtNombre().getText();
-							dto.apellido_destinatario = getTxtApellidos().getText();
+							dto.nombreDestinatario = getTxtNombre().getText();
+							dto.apellidoDestinatario = getTxtApellidos().getText();
 							dto.direccion = getTxtDireccion().getText();
 							dto.peso = Integer.parseInt(getTxtPeso().getText());
 							

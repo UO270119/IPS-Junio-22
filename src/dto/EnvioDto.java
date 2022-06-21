@@ -20,9 +20,9 @@ public class EnvioDto {
 
 	public String estado;
 	
-	public String nombre_destinatario;
+	public String nombreDestinatario;
 	
-	public String apellido_destinatario;
+	public String apellidoDestinatario;
 	
 	public String direccion;
 	
