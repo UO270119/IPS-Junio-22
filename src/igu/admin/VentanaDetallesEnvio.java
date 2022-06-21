@@ -242,6 +242,7 @@ public class VentanaDetallesEnvio extends JFrame {
 						EnviosService es = BusinessFactory.getEnviosService();
 						es.updateEstado(envio, newEstado);
 						refreshEstados();
+						chckbxCentroDist.setEnabled(false);
 					} catch (BusinessException e1) {
 						JOptionPane.showMessageDialog(rootPane, "No se ha podido actualizar el estado del envío.");
 					}
@@ -286,6 +287,9 @@ public class VentanaDetallesEnvio extends JFrame {
 		this.getLblPeso().setText("Peso: " + String.valueOf(envio.peso));
 		this.getLblDireccion().setText("Dirección: " + envio.direccion);
 		this.getLblPrecio_1().setText("Previo: " + String.valueOf(envio.precio));
+
+		// Sólo se pueden marcar envíos recién recibidos
+		this.getChckbxCentroDist().setEnabled(EnvioDto.ESTADO_PREPARANDO.equals(envio.estado));
 		
 		refreshEstados();
 	}

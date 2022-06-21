@@ -19,6 +19,8 @@ public interface EnviosService {
 
 	public void delete(EnvioDto idEnvio);
 
+	public List<EnvioDto> getEnviosEnCentroDistribucion()  throws BusinessException;
+	
 	public List<EnvioDto> getAll() throws BusinessException;
 
 	public double calculatePrice(String provinciaOrigen, String provinciaDestino, double peso, String recogida);

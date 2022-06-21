@@ -2,13 +2,17 @@ package business.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import business.UsuariosService;
 import business.exception.BusinessException;
 import db.PersistenceFactory;
+import db.RutasGateway;
 import db.UsuariosGateway;
 import db.exception.PersistenceException;
 import db.util.Jdbc;
+import dto.EnvioDto;
 import dto.UsuarioDto;
 
 public class UsuariosServiceImpl implements UsuariosService {
@@ -49,6 +53,20 @@ public class UsuariosServiceImpl implements UsuariosService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public List<UsuarioDto> getAllRepartidores() throws BusinessException {
+		List<UsuarioDto> result = new LinkedList<UsuarioDto>();
+		try (Connection con = Jdbc.getConnection()) {
+			UsuariosGateway ug = PersistenceFactory.getUsuariosGateway(con);
+			List<UsuarioDto> repartidores = ug.findByTipo(UsuarioDto.TIPO_REPARTIDOR);
+			for (UsuarioDto dto : repartidores)
+				result.add(dto);
+		} catch (SQLException | PersistenceException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

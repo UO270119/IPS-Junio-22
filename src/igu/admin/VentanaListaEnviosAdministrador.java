@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dto.EnvioDto;
+import igu.util.ReadonlyTableModel;
 
 public class VentanaListaEnviosAdministrador extends JFrame {
 
@@ -100,7 +101,7 @@ public class VentanaListaEnviosAdministrador extends JFrame {
 						showVentanaDetallesEnvio(envio);
 					} else {
 						JOptionPane.showMessageDialog(rootPane, "Debes seleccionar un envío para poder ver sus detalles");
-					}						
+					}
 				}
 			});
 			btnDetails.setBounds(447, 54, 89, 21);
@@ -120,14 +121,7 @@ public class VentanaListaEnviosAdministrador extends JFrame {
 		if (tableEnvios == null) {
 			tableEnvios = new JTable();
 			
-			dtm = new DefaultTableModel() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-			    public boolean isCellEditable(int row, int column) {
-			        return false;
-			    }
-			};
+			dtm = new ReadonlyTableModel();
 			
 			tableEnvios.setModel(dtm);
 		}
@@ -138,8 +132,7 @@ public class VentanaListaEnviosAdministrador extends JFrame {
 	public void initialize(List<EnvioDto> envios) {
 		this.envios = envios;
 		
-		dtm = (DefaultTableModel) getTableEnvios().getModel();
-		tableEnvios.setModel(dtm);
+		getTableEnvios();
 		
 		String[] columnNames = new String[] { "Destinatario", "Fecha y hora", "Estado"};
 		dtm.setColumnIdentifiers(columnNames);

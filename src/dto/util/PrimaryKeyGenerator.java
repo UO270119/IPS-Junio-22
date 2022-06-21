@@ -23,7 +23,7 @@ public class PrimaryKeyGenerator {
 		return us.count() + 1;
 	}
 	
-	public static long newURutaPK() {
+	public static long newRutaPK() {
 		RutasService rs = BusinessFactory.getRutasService();
 		return rs.count() + 1;
 	}

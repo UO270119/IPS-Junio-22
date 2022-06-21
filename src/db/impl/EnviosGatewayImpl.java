@@ -49,6 +49,22 @@ public class EnviosGatewayImpl implements EnviosGateway {
 		}
 		return envio;
 	}
+
+	@Override
+	public List<EnvioDto> listEnviosWithEstado(String estado) throws PersistenceException {
+		List<EnvioDto> all = new LinkedList<EnvioDto>();
+		try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_ENVIO_ESTADO)) {
+			ps.setString(1, estado);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				all.add(DtoFactory.getEnvio(rs));
+			}
+		} catch (SQLException sqle) {
+			System.err.println(sqle);
+			throw new PersistenceException(sqle);
+		}
+		return all;
+	}
 	
 	
 	@Override

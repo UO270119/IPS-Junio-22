@@ -20,8 +20,7 @@ public class RutasGatewayImpl implements RutasGateway {
 	private static String SQL_LIST_RUTAS = Conf.getInstance().getProperty("SQL_LIST_RUTAS");
 	private static String SQL_COUNT_RUTAS = Conf.getInstance().getProperty("SQL_COUNT_RUTAS");
 	private static String SQL_SELECT_ENVIOS_FOR_REPARTIDOR = Conf.getInstance().getProperty("SQL_SELECT_ENVIOS_FOR_REPARTIDOR");
-
-
+	
 	private Connection con;
 	
 	@Override

@@ -102,7 +102,7 @@ public class DtoFactory {
 
 	public static RutaDto newRuta() {
 		RutaDto ruta = new RutaDto();
-		ruta.id = PrimaryKeyGenerator.newUsuarioPK();
+		ruta.id = PrimaryKeyGenerator.newRutaPK();
 		return ruta;
 	}
 	

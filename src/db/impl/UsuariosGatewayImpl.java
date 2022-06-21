@@ -4,18 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import db.UsuariosGateway;
 import db.exception.PersistenceException;
 import db.util.Conf;
 import dto.DtoFactory;
+import dto.EnvioDto;
 import dto.UsuarioDto;
 
 public class UsuariosGatewayImpl implements UsuariosGateway {
 		
 	private static String SQL_SAVE_USUARIO = Conf.getInstance().getProperty("SQL_SAVE_USUARIO");
 	private static String SQL_COUNT_USUARIOS = Conf.getInstance().getProperty("SQL_COUNT_USUARIOS");
+	private static String SQL_SELECT_USUARIO_TIPO = Conf.getInstance().getProperty("SQL_SELECT_USUARIO_TIPO");
 	private static String SQL_SELECT_USUARIO_DNI = Conf.getInstance().getProperty("SQL_SELECT_USUARIO_DNI");
 	private static String SQL_SELECT_USUARIO_DNI_CONTRASENA = Conf.getInstance().getProperty("SQL_SELECT_USUARIO_DNI_CONTRASENA");
 
@@ -106,6 +109,23 @@ public class UsuariosGatewayImpl implements UsuariosGateway {
 			throw new PersistenceException(sqle);
 		}
 		return count;
+	}
+
+
+	@Override
+	public List<UsuarioDto> findByTipo(String tipoRepartidor) throws PersistenceException {
+		List<UsuarioDto> all = new LinkedList<UsuarioDto>();
+		try (PreparedStatement ps = con.prepareStatement(SQL_SELECT_USUARIO_TIPO)) {
+			ps.setString(1, tipoRepartidor);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				all.add(DtoFactory.getUsuario(rs));
+			}
+		} catch (SQLException sqle) {
+			System.err.println(sqle);
+			throw new PersistenceException(sqle);
+		}
+		return all;
 	}
 
 }

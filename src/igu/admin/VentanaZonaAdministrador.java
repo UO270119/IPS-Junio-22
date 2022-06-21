@@ -29,7 +29,8 @@ public class VentanaZonaAdministrador extends JFrame {
 	private JButton btnAsignarRutas;
 	
 	private VentanaListaEnviosAdministrador listaAdministrador;
-	
+	private VentanaAsignarRutas asignarRutas;
+
 
 	/**
 	 * Create the frame.
@@ -66,13 +67,10 @@ public class VentanaZonaAdministrador extends JFrame {
 			btnListaEnvios = new JButton("Ver lista de env\u00EDos");
 			btnListaEnvios.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					EnviosService es = BusinessFactory.getEnviosService();
-					List<EnvioDto> envio;
 					try {
-						envio = es.getAll();
-						VentanaListaEnviosAdministrador ventana = showVentanaListaEnviosAdministrador();
-						ventana.initialize(envio);
+						EnviosService es = BusinessFactory.getEnviosService();
+						List<EnvioDto> envios = es.getAll();
+						showVentanaListaEnviosAdministrador(envios);
 					} catch (BusinessException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -104,7 +102,14 @@ public class VentanaZonaAdministrador extends JFrame {
 			btnAsignarRutas = new JButton("Asignar Rutas");
 			btnAsignarRutas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					showVentanaAsignarRutas();
+					try {
+						EnviosService es = BusinessFactory.getEnviosService();
+						List<EnvioDto> envios = es.getEnviosEnCentroDistribucion();
+						showVentanaAsignarRutas(envios);
+					} catch (BusinessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			});
 			btnAsignarRutas.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -113,16 +118,20 @@ public class VentanaZonaAdministrador extends JFrame {
 		return btnAsignarRutas;
 	}
 	
-	private VentanaListaEnviosAdministrador showVentanaListaEnviosAdministrador() {
+	private void showVentanaListaEnviosAdministrador(List<EnvioDto> envios) {
 		listaAdministrador = new VentanaListaEnviosAdministrador();
 		listaAdministrador.setLocationRelativeTo(this);
 		//listaAdministrador.setModalityType(true);
 		listaAdministrador.setVisible(true);
-		return listaAdministrador;			
+		listaAdministrador.initialize(envios);	
 	}
 	
-	private void showVentanaAsignarRutas() {
-		// TODO		
+	private void showVentanaAsignarRutas(List<EnvioDto> envios) {
+		asignarRutas = new VentanaAsignarRutas();
+		asignarRutas.setLocationRelativeTo(this);
+		//asignarRutas.setModalityType(true);
+		asignarRutas.setVisible(true);	
+		asignarRutas.initialize(envios);
 	}
 
 

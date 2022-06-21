@@ -101,6 +101,20 @@ public class EnviosServiceImpl implements EnviosService {
 	}
 
 	@Override
+	public List<EnvioDto> getEnviosEnCentroDistribucion() throws BusinessException {
+		List<EnvioDto> result = new LinkedList<EnvioDto>();
+		try (Connection con = Jdbc.getConnection()) {
+			EnviosGateway eg = PersistenceFactory.getEnviosGateway(con);
+			List<EnvioDto> envios = eg.listEnviosWithEstado(EnvioDto.ESTADO_DISTRIBUCION);
+			for (EnvioDto dto : envios)
+				result.add(dto);
+		} catch (SQLException | PersistenceException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
 	public List<EnvioDto> getAll() throws BusinessException {
 		List<EnvioDto> result = new LinkedList<EnvioDto>();
 		try (Connection con = Jdbc.getConnection()) {
