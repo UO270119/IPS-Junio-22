@@ -5,13 +5,17 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import business.BusinessFactory;
 import business.EnviosService;
+import business.EstadosEnvioService;
 import business.exception.BusinessException;
 import db.EnviosGateway;
 import db.PersistenceFactory;
 import db.exception.PersistenceException;
 import db.util.Jdbc;
+import dto.DtoFactory;
 import dto.EnvioDto;
+import dto.EstadoEnvioDto;
 
 public class EnviosServiceImpl implements EnviosService {
 
@@ -20,8 +24,16 @@ public class EnviosServiceImpl implements EnviosService {
 		try (Connection con = Jdbc.getConnection()) {
 			EnviosGateway eg = PersistenceFactory.getEnviosGateway(con);
 			eg.save(envio);
-			System.out.println("Envío: " + envio.id + "añadido correctamente");
-		} catch (SQLException | PersistenceException e) {
+			System.out.println("Envío: " + envio.id + " añadido correctamente");
+			
+			EstadoEnvioDto estado = DtoFactory.newEstadoEnvio();
+			estado.idEnvio = envio.id;
+			estado.oldEstado = "-";
+			estado.newEstado = envio.estado;
+			EstadosEnvioService es = BusinessFactory.getEstadosEnvioService();
+			es.add(estado);
+			
+		} catch (SQLException | PersistenceException | BusinessException e) {
 			throw new BusinessException(e);
 		}
 	}
@@ -41,11 +53,23 @@ public class EnviosServiceImpl implements EnviosService {
 	}
 
 	@Override
-	public void update(EnvioDto envio) {
+	public void updateEstado(EnvioDto envio, String newEstado) {
 		try (Connection con = Jdbc.getConnection()) {
+			
+			String oldEstado = envio.estado;
+			envio.estado = newEstado;
+			
 			EnviosGateway eg = PersistenceFactory.getEnviosGateway(con);
-			eg.save(envio);
-		} catch (SQLException | PersistenceException e) {
+			eg.updateEstado(envio);
+			
+			EstadoEnvioDto estado = DtoFactory.newEstadoEnvio();
+			estado.idEnvio = envio.id;
+			estado.oldEstado = oldEstado;
+			estado.newEstado = newEstado;
+			EstadosEnvioService es = BusinessFactory.getEstadosEnvioService();
+			es.add(estado);
+			
+		} catch (SQLException | PersistenceException | BusinessException e) {
 			e.printStackTrace();
 		}
 	}

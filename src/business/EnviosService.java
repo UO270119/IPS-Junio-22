@@ -9,7 +9,7 @@ public interface EnviosService {
 
 	public EnvioDto findByCodigo(String codigoEnvio) throws BusinessException;
 	
-	public void update(EnvioDto envio);
+	public void updateEstado(EnvioDto envio, String newEstado) throws BusinessException;
 
 	public void add(EnvioDto envio) throws BusinessException;
 

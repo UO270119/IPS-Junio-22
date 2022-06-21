@@ -116,7 +116,7 @@ public class VentanaListaEnviosAdministrador extends JFrame {
 		detallesEnvio.initialize(envio);
 	}
 	
-	private JTable getTableEnvios() { //hacer una query que recoja todos los envíos con cualquier estado, ordenar por fecha y hora
+	private JTable getTableEnvios() {
 		if (tableEnvios == null) {
 			tableEnvios = new JTable();
 			

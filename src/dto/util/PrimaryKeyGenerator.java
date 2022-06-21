@@ -2,6 +2,7 @@ package dto.util;
 
 import business.BusinessFactory;
 import business.EnviosService;
+import business.EstadosEnvioService;
 import business.UsuariosService;
 
 public class PrimaryKeyGenerator {
@@ -10,7 +11,11 @@ public class PrimaryKeyGenerator {
 		EnviosService es = BusinessFactory.getEnviosService();
 		return es.count() + 1;
 	}
-	
+
+	public static long newEstadoEnvioPK() {
+		EstadosEnvioService es = BusinessFactory.getEstadosEnvioService();
+		return es.count() + 1;
+	}
 	
 	public static long newUsuarioPK() {
 		UsuariosService us = BusinessFactory.getUsuariosService();

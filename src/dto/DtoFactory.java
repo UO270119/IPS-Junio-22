@@ -23,8 +23,6 @@ public class DtoFactory {
 		return envio;
 	}
 	
-
-
 	public static EnvioDto getEnvio(ResultSet rs) throws SQLException {
 		EnvioDto dto = new EnvioDto();
 		dto.id = rs.getLong("ID");
@@ -47,6 +45,31 @@ public class DtoFactory {
 	}
 	
 	
+	
+	
+	public static EstadoEnvioDto newEstadoEnvio() throws BusinessException {
+		EstadoEnvioDto dto = new EstadoEnvioDto();
+		dto.id = PrimaryKeyGenerator.newEstadoEnvioPK();
+		dto.fecha = new Date();
+		return dto;
+	}
+	
+	public static EstadoEnvioDto getEstadoEnvio(ResultSet rs) throws SQLException {
+		EstadoEnvioDto dto = new EstadoEnvioDto();
+		dto.id = rs.getLong("ID");
+		dto.idEnvio = rs.getLong("ID_ENVIO");
+		dto.oldEstado = rs.getString("OLD_ESTADO");
+		dto.oldEstado = rs.getString("NEW_ESTADO");
+		
+		Timestamp ts = rs.getTimestamp("FECHA");
+		if (ts == null) {
+			System.err.println("No se ha encontrado fecha para estado de envío con id " + dto.id);
+			dto.fecha = new Date();
+		}
+		else dto.fecha = Date.from(ts.toInstant());
+		
+		return dto;
+	}
 	
 	
 	

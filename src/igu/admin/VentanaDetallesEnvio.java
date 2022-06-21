@@ -3,8 +3,14 @@ package igu.admin;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
+import business.BusinessFactory;
+import business.EnviosService;
+import business.EstadosEnvioService;
+import business.exception.BusinessException;
 import dto.EnvioDto;
+import dto.EstadoEnvioDto;
 
 import java.awt.Toolkit;
 import javax.swing.JLabel;
@@ -17,8 +23,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import java.awt.Color;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
 
 public class VentanaDetallesEnvio extends JFrame {
@@ -38,13 +47,14 @@ public class VentanaDetallesEnvio extends JFrame {
 	private JLabel lblPrecio_1;
 	private JScrollPane scrollPane;
 	private JPanel pnEstado;
-	private JList listEstados;
 	private JLabel lblEstados;
 	private JCheckBox chckbxCentroDist;
 	private JLabel lblTipo;
 	private JLabel lblPeso;
-	
-	private DefaultListModel<String> dlm = new DefaultListModel<>();
+	private JTable tableEstados;
+
+	// tabla para actualizaciones de estado de envio
+	private DefaultTableModel dtm;
 
 
 	/**
@@ -191,18 +201,27 @@ public class VentanaDetallesEnvio extends JFrame {
 		if (pnEstado == null) {
 			pnEstado = new JPanel();
 			pnEstado.setBackground(Color.WHITE);
-			pnEstado.add(getListEstados());
+			pnEstado.add(getTableEstados());
 		}
 		return pnEstado;
 	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private JList getListEstados() {
-		if (listEstados == null) {
-			listEstados = new JList();
-			listEstados.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			listEstados.setModel(dlm);
+	
+	private JTable getTableEstados() {
+		if (tableEstados == null) {
+			tableEstados = new JTable();
+			
+			dtm = new DefaultTableModel() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+			    public boolean isCellEditable(int row, int column) {
+			        return false;
+			    }
+			};
+			
+			tableEstados.setModel(dtm);
 		}
-		return listEstados;
+		return tableEstados;
 	}
 	
 	private JLabel getLblEstados() {
@@ -217,6 +236,21 @@ public class VentanaDetallesEnvio extends JFrame {
 	private JCheckBox getChckbxCentroDist() {
 		if (chckbxCentroDist == null) {
 			chckbxCentroDist = new JCheckBox("Recibido en centro de distribuci\u00F3n");
+			chckbxCentroDist.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String newEstado;
+					if (chckbxCentroDist.isSelected()) newEstado = EnvioDto.ESTADO_DISTRIBUCION;
+					else newEstado = EnvioDto.ESTADO_PREPARANDO;
+					
+					try {
+						EnviosService es = BusinessFactory.getEnviosService();
+						es.updateEstado(envio, newEstado);
+						refreshEstados();
+					} catch (BusinessException e1) {
+						JOptionPane.showMessageDialog(rootPane, "No se ha podido actualizar el estado del envío.");
+					}
+				}
+			});
 			chckbxCentroDist.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			chckbxCentroDist.setBounds(319, 528, 244, 39);
 		}
@@ -242,7 +276,12 @@ public class VentanaDetallesEnvio extends JFrame {
 	}
 
 	
+	
+	private EnvioDto envio;
+	
 	public void initialize(EnvioDto envio) {
+		
+		this.envio = envio;
 		
 		this.getLblNombre().setText("Nombre: " + envio.nombreDestinatario);
 		this.getLblApellido().setText("Apellidos: " + envio.apellidoDestinatario);
@@ -252,7 +291,29 @@ public class VentanaDetallesEnvio extends JFrame {
 		this.getLblDireccion().setText("Dirección: " + envio.direccion);
 		this.getLblPrecio_1().setText("Previo: " + String.valueOf(envio.precio));
 		
-		// TODO: estados
-		dlm.addElement(envio.fechaEmision + "         " + envio.estado); // falta meter una lista con los anteriores estados
+		refreshEstados();
+	}
+	
+	private void refreshEstados() {
+
+		try {
+			EstadosEnvioService es = BusinessFactory.getEstadosEnvioService();
+			List<EstadoEnvioDto> estados = es.getForEnvio(envio.id);
+
+			dtm = (DefaultTableModel) getTableEstados().getModel();
+			tableEstados.setModel(dtm);
+			
+			String[] columnNames = new String[] { "Fecha", "Antiguo Estado", "Nuevo Estado"};
+			dtm.setColumnIdentifiers(columnNames);
+			for (EstadoEnvioDto estado : estados) {
+				String fecha = String.valueOf(estado.fecha);
+				
+				dtm.addRow(new Object[] {fecha, estado.oldEstado, estado.newEstado});
+			}
+			
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

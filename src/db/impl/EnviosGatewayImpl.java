@@ -22,7 +22,7 @@ public class EnviosGatewayImpl implements EnviosGateway {
 	private static String SQL_COUNT_ENVIOS = Conf.getInstance().getProperty("SQL_COUNT_ENVIOS");
 	private static String SQL_SELECT_ENVIO_CODIGO = Conf.getInstance().getProperty("SQL_SELECT_ENVIO_CODIGO");
 	private static String SQL_SELECT_ENVIO_ESTADO = Conf.getInstance().getProperty("SQL_SELECT_ENVIO_ESTADO");
-
+	private static String SQL_UPDATE_ENVIO_ESTADO = Conf.getInstance().getProperty("SQL_UPDATE_ENVIO_ESTADO");
 
 	private Connection con;
 	
@@ -107,6 +107,20 @@ public class EnviosGatewayImpl implements EnviosGateway {
 			throw new PersistenceException(sqle);
 		}
 		return count;
+	}
+
+
+	@Override
+	public void updateEstado(EnvioDto envio) throws PersistenceException {
+		try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE_ENVIO_ESTADO)) {
+			ps.setString(1, envio.estado);
+			ps.setLong(2, envio.id);
+			ps.executeUpdate();
+		}
+		catch (SQLException sqle) {
+			sqle.printStackTrace();
+			throw new PersistenceException(sqle);
+		}
 	}
 
 }

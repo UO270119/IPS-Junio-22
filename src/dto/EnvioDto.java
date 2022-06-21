@@ -5,6 +5,7 @@ import java.util.Date;
 public class EnvioDto {
 
 	public final static String ESTADO_PREPARANDO = "PREPARANDO";
+	public final static String ESTADO_DISTRIBUCION = "CENTRO_DISTRIBUCION";
 	
 	/*package*/ EnvioDto() {
 		
